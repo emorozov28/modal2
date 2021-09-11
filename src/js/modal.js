@@ -19,12 +19,12 @@ class Modal {
         }
 
         this.options = { ...changeOptions, ...options };
-        this.modal = document.querySelector('[data-modal-name="modal"]');
+        this.modal = document.querySelector('[data-modal-wrap="modal"]');
         this.modalItem = null;
         this.nextModalItem = null;
         this.isOpenModal = false,
-        this.isCloseModal = false,
-        this.animation = null;
+            this.isCloseModal = false,
+            this.animation = null;
         this._modalAnimationNames = ['fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight'];
         this._modalPositionNames = ['top', 'top-left', 'top-right', 'center', 'center-left', 'center-right', 'bottom', 'bottom-left', 'bottom-right'];
         this.position = null;
@@ -36,6 +36,8 @@ class Modal {
         this.fixedBlock = document.querySelectorAll('.fixed-block');
 
         this.init();
+
+        console.log(options);
     }
 
     init() {
@@ -94,17 +96,21 @@ class Modal {
             setTimeout(() => {
                 that.modalItem.classList.add('animation-show');
                 isOpen(that);
-                that.isOpenModal = true;
             }, that.speed);
+
+            setTimeout(() => {
+                this.modal.classList.add('overflowY-auto');
+                that.isOpenModal = true;
+            }, that.speed * 2)
         }
 
         if (this.isOpenModal) {
             const modalItems = this.modal.querySelectorAll('[data-modal-target]');
             for (let i = 0; i < modalItems.length; i++) {
-                
+
                 if (modalItems[i].classList.contains(this.defaultOptions.animation)) {
                     const [a, b] = [modalItems[i].getAttribute('data-modal-target'), document.activeElement.getAttribute('data-modal-path')];
-                    if (a === b) return alert('This modal window is open') 
+                    if (a === b) return alert('This modal window is open')
 
                     this.disableScrollElem();
                     modalItems[i].classList.remove('animation-show');
@@ -137,15 +143,16 @@ class Modal {
             this.modalItem.classList.remove('animation-show');
         }
 
+        this.modal.classList.remove('overflowY-auto');
+
         setTimeout(() => {
             this.modalItem.classList.remove(this.defaultOptions.animation);
             this.modalItem.classList.remove(this.animation);
             this.modalItem.classList.remove(this.position);
-            this.modal.classList.remove(this.defaultOptions.animation)
+            this.modal.classList.remove(this.defaultOptions.animation);
             this.enableScroll();
             this.options.isClose(this);
         }, this.speed);
-
     }
 
     modalSize(param) {
@@ -235,6 +242,8 @@ class Modal {
     }
 
     disableScrollElem() {
+        if (!this.options.posFixed) return;
+        console.log(this.options.posFixed);
         const pagePosition = window.scrollY;
         this.lockPadding();
         document.body.classList.add('disable--scroll');
