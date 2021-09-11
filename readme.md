@@ -61,11 +61,11 @@ const modal = new Modal({
 ```
 ## Параметры
 Применяется для всех модальных окон
-Name | Type | Default | Description | Extra options |
---- | --- | --- | --- | --- |
-isOpen | function | --- | Определяет, открыто ли модальное окно | --- |
-isClose | function | --- | Определяет, закрыто ли модальное окно | --- |
-posFixed | boolean | true | Убрать скролл со страницы при открытом модальном окне | --- |
+Name | Type | Default | Description | Extra options 
+--- | --- | --- | --- | --- 
+isOpen | function | --- | Определяет, открыто ли модальное окно | --- 
+isClose | function | --- | Определяет, закрыто ли модальное окно | --- 
+posFixed | boolean | true | Убрать скролл со страницы при открытом модальном окне | --- 
 ## Пример
 ```javascript
 const modal = new Modal({
